@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id          Int           @id @default(autoincrement())
+  userName    String        @unique 
+  firstName   String?        @db.VarChar(30)
+  lastName    String?        @db.VarChar(30)
+  password    String        
+
+  postContent PostContent[]
+  Activity    Activity[]
+}
+
+model PostContent {
+  id          Int      @id @default(autoincrement())
+  messageText String?  
+  images_post String?
+  videos      String?
+  createAt    DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  updateAt    DateTime @default(now()) @map("updated_at") @db.Timestamp(0)
+  admin_id    Int
+
+  admid       Admin    @relation(fields: [admin_id], references: [id], onDelete: Cascade)
+}
+
+model Users {
+  id             Int              @id @default(autoincrement())
+  userName       String           @unique
+  password       String           
+  email          String?
+
+  users_activity Users_Activity[]
+}
+
+model Users_Activity {
+  id         Int      @id @default(autoincrement())
+  userId     Int      @map("user_id")
+  ActivityId Int      @map("activity_id")
+  createAt   DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+
+  users      Users    @relation(fields: [userId], references: [id])
+}
+
+model Activity {
+  id       Int      @id @default(autoincrement())
+  postLink String?
+  images   String?
+  title    String?
+  adminId  Int      @map("admin_id")
+  createAt DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  updateAt DateTime @default(now()) @map("updated_at") @db.Timestamp(0)
+
+  admin Admin @relation(fields: [adminId], references: [id])
+}

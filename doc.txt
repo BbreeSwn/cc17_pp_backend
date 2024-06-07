@@ -1,0 +1,27 @@
+--- REGISTER / Login
+POST /auth/register
+BODY
+    userName
+    password
+    confirmPassword
+    email
+    
+RERSPONSE
+    200 message
+    400 message
+    500 message
+
+--- Users only user service  //  เอา authenticate มาดักหน้า route เพื่อไม่ให้ดูทุกคน
+GET /users/kid-program 
+    userName
+    password
+PATCH /users/profile
+    userName
+    profile Image
+POST /users/activity
+    upload image for activity
+
+RERSPONSE
+    200 message
+    400 message
+    500 message
