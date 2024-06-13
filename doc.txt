@@ -25,3 +25,29 @@ RERSPONSE
     200 message
     400 message
     500 message
+
+--- GET AUTH Users
+GET /auth/me
+HEADER
+    Authorization bearer_token
+RERSPONSE
+    200 user //ข้อมูล user
+    400 message
+    401 message // unauthorization
+    500 message
+
+--- Admin
+POST /admin/create-admin
+PATCH /admin/:id
+DELETE /admin/:id
+
+BODY
+    firstName
+    lastName
+    userName
+    password
+    confirmPassword
+RERSPONSE
+    200 message
+    400 message
+    500 message

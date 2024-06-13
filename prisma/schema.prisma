@@ -14,11 +14,12 @@ datasource db {
 }
 
 model Admin {
-  id          Int           @id @default(autoincrement())
-  userName    String        @unique 
-  firstName   String?        @db.VarChar(30)
-  lastName    String?        @db.VarChar(30)
-  password    String        
+  id           Int     @id @default(autoincrement())
+  userName     String  @unique
+  firstName    String? @db.VarChar(30)
+  lastName     String? @db.VarChar(30)
+  password     String
+  isSuperAdmin Boolean @default(false)
 
   postContent PostContent[]
   Activity    Activity[]
@@ -26,21 +27,26 @@ model Admin {
 
 model PostContent {
   id          Int      @id @default(autoincrement())
-  messageText String?  
+  title       String?
+  messageText String? @db.LongText
+  description String? @db.VarChar(256)
   images_post String?
+  cover_image String?
   videos      String?
   createAt    DateTime @default(now()) @map("created_at") @db.Timestamp(0)
   updateAt    DateTime @default(now()) @map("updated_at") @db.Timestamp(0)
   admin_id    Int
+  catagorie_id Int
 
-  admid       Admin    @relation(fields: [admin_id], references: [id], onDelete: Cascade)
+  admid Admin @relation(fields: [admin_id], references: [id], onDelete: Cascade)
+  catagories Catagories @relation(fields: [catagorie_id] , references: [id])
 }
 
 model Users {
-  id             Int              @id @default(autoincrement())
-  userName       String           @unique
-  password       String           
-  email          String?
+  id       Int     @id @default(autoincrement())
+  userName String  @unique
+  password String
+  email    String?
 
   users_activity Users_Activity[]
 }
@@ -51,7 +57,7 @@ model Users_Activity {
   ActivityId Int      @map("activity_id")
   createAt   DateTime @default(now()) @map("created_at") @db.Timestamp(0)
 
-  users      Users    @relation(fields: [userId], references: [id])
+  users Users @relation(fields: [userId], references: [id])
 }
 
 model Activity {
@@ -59,9 +65,18 @@ model Activity {
   postLink String?
   images   String?
   title    String?
+  detail   String?
   adminId  Int      @map("admin_id")
   createAt DateTime @default(now()) @map("created_at") @db.Timestamp(0)
   updateAt DateTime @default(now()) @map("updated_at") @db.Timestamp(0)
 
   admin Admin @relation(fields: [adminId], references: [id])
+}
+
+model Catagories {
+  id  Int @id @default(autoincrement())
+  catagory_name String @db.VarChar(191)
+  catagory_image String?
+
+postContents PostContent[]
 }

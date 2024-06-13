@@ -10,17 +10,27 @@ const userData = [
 ]
 
 const adminData = [
-    { userName : 'bbb', password, email: 'bbb@ggg.mail' },
-    { userName : 'mmm', password, email: 'mmm@ggg.mail' },
-    { userName : 'ddd', password, email: 'ddd@ggg.mail' },
+{firstName: 'canny', lastName: 'baemon', userName: 'CannyBaemon', password},
+{firstName: 'pharita', lastName: 'baemon', userName: 'PharitaBaemon', password},
+{firstName: 'Ruka', lastName: 'baemon', userName: 'RukaBaemon', password},
+  ]
+
+  const catagoryData = [
+    {catagory_name: "Art for kids"},
+    {catagory_name: "English for kids"},
+    {catagory_name: "Chinese for kids"},
+    {catagory_name: "Japanese for kids"},
+    {catagory_name: "Cooking with Kids"},
+    {catagory_name: "A class natural"},
   ]
   
 
 
 
 const run = async () => {
-  await prisma.users.createMany({ data : userData })
-  await prisma.admin.createMany({ data : adminData })
+  // await prisma.users.createMany({ data : userData })
+  // await prisma.admin.createMany({ data : adminData })
+  await prisma.catagories.createMany({ data : catagoryData })
 }
 
 run()

@@ -1,29 +1,19 @@
 const Joi = require("joi");
 
 exports.registerSchema = Joi.object({
-  firstName: Joi.string().required().trim(),
-  lastName: Joi.string().required().trim(),
-  userName: Joi.alternatives([
-    Joi.string().email({ tlds: false }),
-    Joi.string().pattern(/^[0-9]{10}$/),
-  ])
-    .required()
-    .strip(),
+  userName: Joi.string().required().trim(),
   password: Joi.string()
     .required()
     .pattern(/^[a-zA-Z0-9]{6,}$/),
   confirmPassword: Joi.string().required().valid(Joi.ref("password")).strip(),
   //email: Joi.string().default(Joi.ref('emailOrMobile')).forbidden(), // .forbidden ห้ามแสดง ถ้าไม่มีค่าที่ไม่ได้ส่งมา
   //mobile: Joi.string().default(Joi.ref('emailOrMobile')).forbidden()
-  email: Joi.forbidden().when("email", {
-    is: Joi.string().email({ tlds: false }),
-    then: Joi.string().default(Joi.ref("emai")),
-  }),
+  email: Joi.string().email({ tlds: false }),
 
 });
 
 exports.loginSchema = Joi.object({
-  userName: Joi.string().required(),
+  username: Joi.string().required(),
   password: Joi.string().required()
 })
 

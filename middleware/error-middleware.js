@@ -1,7 +1,13 @@
-module.exports = (err ,req,res,next) => {
-    console.log('-------error-------')
-    console.log(err);
-    console.log('-------error here------')
-    let statusCode = err.statusCode || 500
-    res.status(statusCode).json({msg : err.message})
+const { JsonWebTokenError, TokenExpiredError } = require('jsonwebtoken')
+
+
+const errorMiddleware = (err , req ,res,next) => {
+    console.log(err)
+
+    if(err instanceof JsonWebTokenError || err instanceof TokenExpiredError){
+        err.statusCode = 401;
+    }
+    res.status(err.statusCode || 500 ).json({msg: err.message , field: err.field})
 }
+
+module.exports = errorMiddleware
