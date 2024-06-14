@@ -5,8 +5,8 @@ const createError = require("../utils/createError");
 
 //create content
 const createContent = tryCatch(async (req, res, next) => {
-  console.log(req.body);
-  console.log(req.file);
+  // console.log('************************************',req.body);
+  // console.log(req.file);
 
   if (!req.file && !req.body.title && !req.body.description) {
     createError({
@@ -18,6 +18,7 @@ const createContent = tryCatch(async (req, res, next) => {
     admin_id: req.admin.id,
     title: req.body.title,
     description: req.body.description,
+    catagorie_id : +req.body.catagory_id
   };
   console.log("***************************", data);
   if (req.file) {
@@ -46,7 +47,7 @@ const createCatagory = tryCatch(async (req, res, next) => {
   if (file) {
     data.cover_image = await uploadService.upload(req.file.path);
   }
-  console.log(data);
+  // console.log(data);
   await prisma.catagories.create({
     data,
   });
@@ -74,14 +75,17 @@ const getContentByCatagoryId = tryCatch(async (req, res, next) => {
 const updateContent = tryCatch(async (req, res, next) => {
   res.json({ msg: "update content" });
 });
+
+
 // delete content
 const deleteContent = tryCatch(async (req, res, next) => {
-  const { catagory_name } = req.body;
+  const id  = +req.params.id;
+  console.log(req.params)
 
-  if (!catagory_name) {
-    return res.status(400).json({ message: "Missing category ID" });
+  if (!id) {
+    return res.status(400).json({ message: "Missing content" });
   }
-  await prisma.catagories.deleteMany({ where: { catagory_name } });
+  await prisma.postContent.delete({ where: { id } });
   res.json({ msg: "Bye " });
 });
 

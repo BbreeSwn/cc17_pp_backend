@@ -89,7 +89,7 @@ const login = async (req, res, next) => {
 //todo login-admin
 const loginAdmin = async (req, res, next) => {
   //* รับbody
-
+console.log(req.body)
   try{
     const { username, password } = req.body;
 

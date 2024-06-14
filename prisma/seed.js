@@ -28,8 +28,8 @@ const adminData = [
 
 
 const run = async () => {
-  // await prisma.users.createMany({ data : userData })
-  // await prisma.admin.createMany({ data : adminData })
+  await prisma.users.createMany({ data : userData })
+  await prisma.admin.createMany({ data : adminData })
   await prisma.catagories.createMany({ data : catagoryData })
 }
 

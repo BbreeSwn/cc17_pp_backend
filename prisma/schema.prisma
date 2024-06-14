@@ -38,7 +38,7 @@ model PostContent {
   admin_id    Int
   catagorie_id Int
 
-  admid Admin @relation(fields: [admin_id], references: [id], onDelete: Cascade)
+  admin Admin @relation(fields: [admin_id], references: [id], onDelete: Cascade)
   catagories Catagories @relation(fields: [catagorie_id] , references: [id])
 }
 
