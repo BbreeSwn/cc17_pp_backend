@@ -18,7 +18,7 @@ const createContent = tryCatch(async (req, res, next) => {
     admin_id: req.admin.id,
     title: req.body.title,
     description: req.body.description,
-    catagorie_id : +req.body.catagory_id
+    catagorie_id: +req.body.catagory_id,
   };
   console.log("***************************", data);
   if (req.file) {
@@ -34,7 +34,6 @@ const createContent = tryCatch(async (req, res, next) => {
 
 // creat catagory
 const createCatagory = tryCatch(async (req, res, next) => {
-
   if (!req.body.catagory_name && !req.file) {
     createError({
       message: "message or image is required",
@@ -53,34 +52,62 @@ const createCatagory = tryCatch(async (req, res, next) => {
   });
 });
 
+//!create 
+
 // get content
 const getContentByCatagoryId = tryCatch(async (req, res, next) => {
-  const { catagory_name } = req.body;
-  const file = req.file;
-  if (!catagory_name) {
+  const { id } = req.params;
+  console.log(req.params, "******************");
+  if (!id) {
     return res.status(400).json({ message: "Missing category name" });
   }
   const data = {
-    catagory_name,
+    catagorie_id: +id,
   };
-  if (file) {
-    data.image = await uploadService.upload(file.path); // Assuming uploadService handles file upload
-  }
-  await prisma.catagories.create({ data });
 
-  res.json({ msg: "get content" });
+ const content =  await prisma.postContent.findMany({
+    where: data,
+  });
+if(!content){
+  createError({
+    message: "missing content",
+    statusCode: 400,
+  });
+}
+
+  res.json( content );
 });
 
-// update admin
+//! get all content
+const getAllContent = tryCatch(async (req, res, next) => {
+
+  const result = await prisma.postContent.findMany();
+  console.log("alll ===",result)
+  res.json({result});
+});
+
+//! getContentById
+const getContentById = tryCatch(async (req, res, next) => {
+  const id = +req.params.id;
+  console.log(req.params);
+
+  if (!id) {
+    return res.status(400).json({ message: "Missing content" });
+  }
+  const result = await prisma.postContent.findUnique({ where: { id } });
+  
+  res.json({result});
+});
+
+//! update admin
 const updateContent = tryCatch(async (req, res, next) => {
   res.json({ msg: "update content" });
 });
 
-
 // delete content
 const deleteContent = tryCatch(async (req, res, next) => {
-  const id  = +req.params.id;
-  console.log(req.params)
+  const id = +req.params.id;
+  console.log(req.params);
 
   if (!id) {
     return res.status(400).json({ message: "Missing content" });
@@ -95,4 +122,6 @@ module.exports = {
   deleteContent,
   getContentByCatagoryId,
   createCatagory,
+  getContentById,
+  getAllContent
 };

@@ -12,7 +12,12 @@ manageContentRouter.post('/content',upload.single('cover_image') , contentContro
 manageContentRouter.post('/content/catagory', contentController.createCatagory )
 //update admin
 manageContentRouter.patch('/content/:id', contentController.updateContent )
+
+//get contentBy Id
+manageContentRouter.get('/content/:id', contentController.getContentById)
 // delete admin
+manageContentRouter.get('/content', contentController.getAllContent)
+// get all
 manageContentRouter.delete('/content/:id', contentController.deleteContent)
 
 module.exports = manageContentRouter;

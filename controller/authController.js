@@ -37,6 +37,7 @@ console.log("body check",req.body)
   if (userExist) {
     throw createError({message: "username already in use" , field: "userName" , statusCode: 400 });
   }
+  
   //* สร้าง user
   const rs = await prisma.users.create({
     data: data,
@@ -104,6 +105,7 @@ console.log(req.body)
           userName : username,
         },
       });
+      console.log(targetUser)
       if (!targetUser) {
         throw createError({message: "user not found" , field: "username" , statusCode: 400 });
       }
@@ -129,7 +131,17 @@ console.log(req.body)
 //todo 
 const me = tryCatch(async (req, res , next) => {
   console.log(req.body)
-    res.status(200).json({user : req.users });
+// if(req.users){
+  return res.status(200).json({user : req.users });
+// }
+    // res.status(200).json({user : req.admin});
+//     //   console.log(req.body);  // ลองยิงดูว่า  body เข้าไหม
+
+});
+
+const meAdmin = tryCatch(async (req, res , next) => {
+  console.log(req.body)
+    res.status(200).json({user : req.admin});
     //   console.log(req.body);  // ลองยิงดูว่า  body เข้าไหม
 
 });
@@ -140,4 +152,4 @@ const logout = tryCatch(async (req , res ,next) => {
   res.json({ msg: "this is logout" });
 })
 
-module.exports = { register, login, me , logout , loginAdmin };
+module.exports = { register, login, me , logout , loginAdmin,meAdmin };
