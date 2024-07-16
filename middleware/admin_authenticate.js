@@ -6,12 +6,18 @@ const prisma = require("../models");
 module.exports = tryCatch(async (req, res, next) => {
   const authorization = req.headers.authorization;
   if (!authorization) {
+    
     throw createError("UnAuthorization", 401);
   }
   if (!authorization.startsWith("Bearer ")) {
     throw createError("UnAuthorization", 401);
   }
+
+  console.log(authorization)
   const token = authorization.split(" ")[1];
+
+
+
   const payload = jwt.verify(token, process.env.JWT_SECRET);
   console.log("*********************",payload);
   //use payload find user in prisma.admin

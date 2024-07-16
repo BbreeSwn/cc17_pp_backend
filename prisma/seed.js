@@ -16,6 +16,7 @@ const adminData = [
   ]
 
   const catagoryData = [
+    {catagory_name: "News and content"},
     {catagory_name: "Art for kids"},
     {catagory_name: "English for kids"},
     {catagory_name: "Chinese for kids"},

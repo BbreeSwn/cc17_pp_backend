@@ -14,11 +14,13 @@ const createContent = tryCatch(async (req, res, next) => {
       statusCode: 400,
     });
   }
+  console.log("--------------",req.admin.id)
+  console.log("--------------",req.body)
   const data = {
     admin_id: req.admin.id,
-    title: req.body.title,
-    description: req.body.description,
-    catagorie_id: +req.body.catagory_id,
+    title: req.body.title[0],
+    description: req.body.description[0],
+    catagorie_id: 3,
   };
   console.log("***************************", data);
   if (req.file) {
@@ -82,7 +84,7 @@ if(!content){
 const getAllContent = tryCatch(async (req, res, next) => {
 
   const result = await prisma.postContent.findMany();
-  console.log("alll ===",result)
+
   res.json({result});
 });
 
