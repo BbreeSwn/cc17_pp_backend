@@ -2,6 +2,7 @@ const tryCatch = require("../utils/tryCatch");
 const prisma = require("../models");
 const uploadService = require("../service/uploadService");
 const createError = require("../utils/createError");
+const { video } = require("../config/cloudinary");
 
 //create content
 const createContent = tryCatch(async (req, res, next) => {
@@ -35,23 +36,32 @@ const createContent = tryCatch(async (req, res, next) => {
 });
 
 // creat catagory
-const createCatagory = tryCatch(async (req, res, next) => {
-  if (!req.body.catagory_name && !req.file) {
+const createKidsProgram = tryCatch(async (req, res, next) => {
+  if (!req.file && !req.body.title && !req.body.description) {
     createError({
       message: "message or image is required",
       statusCode: 400,
     });
   }
+  console.log("--------------",req.admin.id)
+  console.log("--------------",req.body)
   const data = {
-    catagory_name,
+    admin_id: req.admin.id,
+    title: req.body.title,
+    description: req.body.description,
+    videos:req.body.video,
+    catagorie_id:4,
   };
-  if (file) {
+  console.log("***************************", data);
+  if (req.file) {
     data.cover_image = await uploadService.upload(req.file.path);
   }
-  // console.log(data);
-  await prisma.catagories.create({
+  console.log(data);
+  await prisma.postContent.create({
     data,
   });
+
+  res.json({ msg: "create content successfuly" });
 });
 
 //!create 
@@ -123,7 +133,7 @@ module.exports = {
   updateContent,
   deleteContent,
   getContentByCatagoryId,
-  createCatagory,
+  createKidsProgram,
   getContentById,
   getAllContent
 };

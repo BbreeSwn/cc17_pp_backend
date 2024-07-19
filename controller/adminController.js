@@ -10,8 +10,6 @@ const getAllAdmin =tryCatch(async (req,res,next) => {
     //validation
     //! ถ้าไม่มี lastName, userName ,username , password ,confirmpassword , email
     
-
-
     res.json({msg: "hello admin"})
 })
 

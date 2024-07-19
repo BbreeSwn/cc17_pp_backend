@@ -12,13 +12,15 @@ const authenticate = require("./middleware/authenticate");
 const limiter = require('./middleware/rateLimit');
 const auth_admin = require('./middleware/admin_authenticate');
 const manageContentRouter = require("./routes/adminRoute");
+const contentRouter = require("./routes/contentRote");
+const newsRouter = require("./routes/newsRoute");
 
 
 
 // json
 app.use(cors());
 app.use(morgan('dev')); //ดัก server ที่ยิงเข้ามา มีประโยชน์ตอน ไปเชื่อม react ว่ายิง severเข้ามามี bug อะไร
-app.use(limiter)
+// app.use(limiter)
 app.use(express.json());
 
 
@@ -26,6 +28,8 @@ app.use(express.json());
 app.use("/auth" ,authRouter )  
 app.use("/users" ,authenticate, userRouter)
 app.use('/admin', auth_admin , manageContentRouter)
+app.use('/content', contentRouter)
+app.use('/news', newsRouter)
 
 
 

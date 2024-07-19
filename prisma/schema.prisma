@@ -28,7 +28,7 @@ model Admin {
 model PostContent {
   id          Int      @id @default(autoincrement())
   title       String?
-  messageText String? @db.LongText
+  messageText String? @db.MediumText
   description String? @db.VarChar(256)
   images_post String?
   cover_image String?

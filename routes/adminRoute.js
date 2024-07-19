@@ -9,7 +9,7 @@ manageContentRouter.get('/content/catagory/:id', contentController.getContentByC
 // creat admin complete
 manageContentRouter.post('/content',upload.single('cover_image') , contentController.createContent )
 // create catagory
-manageContentRouter.post('/content/catagory', contentController.createCatagory )
+manageContentRouter.post('/kidsprogramcontent', upload.single('cover_image'),contentController.createKidsProgram )
 //update admin
 manageContentRouter.patch('/content/:id', contentController.updateContent )
 
